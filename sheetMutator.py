@@ -47,8 +47,27 @@ class SheetMutator:
 
         print(result)
 
-    def get_timestamp(self):
-        print("todo")
+    def get_previous_timestamp(self):
+        credentials = self.get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
+                        'version=v4')
+        service = discovery.build('sheets', 'v4', http=http,
+                                  discoveryServiceUrl=discoveryUrl)
+
+        spreadsheetId = '1NyZkpeOIuEILLWfRbmpsLv4lCP-O5wJzpqPvTHkSCb4'
+        rangeName = 'Sheet1!A:A'
+
+        result = service.spreadsheets().values().get(
+            spreadsheetId=spreadsheetId,
+            range=rangeName).execute()
+
+        values = result.get('values', [])
+
+        if not values:
+            return "This is your first time logging in!"
+        else:
+            return "".join(values[-1])
 
     def get_credentials(self):
         """Gets valid user credentials from storage.
