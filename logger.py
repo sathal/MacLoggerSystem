@@ -1,5 +1,8 @@
-import os, time
+import os, time, socket, sys
 from sheetMutator import SheetMutator
+
+
+timeout = 60 #seconds
 
 daysOfWeek = {
     0:"Monday",
@@ -26,10 +29,10 @@ monthsOfYear = {
     11:"December"
 }
 
+# Returns the current timestamp for this session
 def get_current_timestamp():
     # Get the local time
     localtime = time.localtime(time.time())
-    print("Local current time :", localtime)
 
     # Get the desired parts of the local time structure
     dayWeek = daysOfWeek.get(localtime.tm_wday)
@@ -43,8 +46,30 @@ def get_current_timestamp():
 
     return dateString
 
-def display_timestamp(message, title):
+# Displays a notification to the user
+def display_notification(message, title):
     os.system("terminal-notifier -message \"" + message + "\" -title \"" + title + "\"")
+
+# Checks for an internet connection
+def is_connected():
+    try:
+        # connect to the host -- tells us if the host is actually
+        # reachable
+        socket.create_connection(("www.google.com", 80))
+        return True
+    except OSError:
+        pass
+    return False
+
+# Wait for an internet connection before proceeding - abort if timeout is reached
+while is_connected() == False:
+    time.sleep(1)
+    timeout -= 1
+    if timeout == 0:
+        message = "Unable to retreive last login timestamp\nThis login session will not be recorded"
+        title = "LOGGER ERROR"
+        display_notification(message, title)
+        sys.exit()
 
 # Create the google sheet mutator
 mutator = SheetMutator()
@@ -55,7 +80,9 @@ currentTimestamp = get_current_timestamp()
 # Get the previous timestamp
 previousTimestamp = mutator.get_previous_timestamp()
 
-display_timestamp(previousTimestamp, "Last Login")
+# Display the last login session's timestamp
+display_notification(previousTimestamp, "Last Login")
 
+# Record the timestamp of the current login session
 mutator.post_timestamp(currentTimestamp)
 

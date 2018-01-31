@@ -14,13 +14,14 @@ except ImportError:
     flags = None
 
 
-
+# A class which allows for accessing and manipulating a google sheet
 class SheetMutator:
 
     SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
     CLIENT_SECRET_FILE = 'client_secret.json'
     APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
+    # Posts the provided timestamp value to the google sheet
     def post_timestamp(self, value):
         credentials = self.get_credentials()
         http = credentials.authorize(httplib2.Http())
@@ -45,8 +46,7 @@ class SheetMutator:
             body=resource,
             valueInputOption=valueInputOption).execute()
 
-        print(result)
-
+    # Grabs the latest timestamp from the google sheet
     def get_previous_timestamp(self):
         credentials = self.get_credentials()
         http = credentials.authorize(httplib2.Http())
@@ -69,6 +69,7 @@ class SheetMutator:
         else:
             return "".join(values[-1])
 
+    # Acquired credentials necessary for accessing the google sheet
     def get_credentials(self):
         """Gets valid user credentials from storage.
 
