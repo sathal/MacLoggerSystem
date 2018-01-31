@@ -1,2 +1,5 @@
 .idea
 venv/
+_*
+client_secret.json
+quickstart.py

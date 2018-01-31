@@ -1,4 +1,5 @@
 import os, time
+from sheetMutator import SheetMutator
 
 daysOfWeek = {
     0:"Monday",
@@ -25,26 +26,36 @@ monthsOfYear = {
     11:"December"
 }
 
-#def getTimeStamp():
-    #TOD
+def get_timestamp():
+    # Get the local time
+    localtime = time.localtime(time.time())
+    print("Local current time :", localtime)
 
-#def getLastLoginTimeStamp():
+    # Get the desired parts of the local time structure
+    dayWeek = daysOfWeek.get(localtime.tm_wday)
+    month = monthsOfYear.get(localtime.tm_mon)
+    dayName = str(localtime.tm_mday)
+
+    dateString = dayWeek + ", " + month + " " + dayName
+
+    return dateString
+
+#def get_last_login_timestamp():
     #TODO
 
-#def postTimeStamp():
+#def post_timestamp():
     #TODO
 
-def displayTimeStamp(message, title):
+def display_timestamp(message, title):
     os.system("terminal-notifier -message \"" + message + "\" -title \"" + title + "\"")
 
 
-localtime = time.localtime(time.time())
-print("Local current time :", localtime)
 
-dayWeek = daysOfWeek.get(localtime.tm_wday)
-month = monthsOfYear.get(localtime.tm_mon)
-dayName = str(localtime.tm_mday)
 
-messageString = dayWeek + ", " + month + " " + dayName
+timestamp = get_timestamp()
 
-displayTimeStamp(messageString, "Last Login")
+display_timestamp(timestamp, "Last Login")
+
+mutator = SheetMutator()
+
+mutator.post_timestamp(timestamp)
