@@ -2,7 +2,7 @@ import os, time, socket, sys
 from sheetMutator import SheetMutator
 
 
-timeout = 60 #seconds
+timeout = 25 #seconds
 
 daysOfWeek = {
     0:"Monday",
