@@ -10,3 +10,7 @@ This program was created to run with Python 3
 ## Motivation
 
 Practice using Google Sheets Python API
+
+## Getting python application to fire on login
+
+//TODO
