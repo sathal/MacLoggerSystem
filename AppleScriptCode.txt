@@ -1,0 +1,6 @@
+tell application "Terminal" -- open terminal
+	set run_cmd to "/path/to/python /path/to/logger.py" -- define terminal command
+	do script run_cmd -- Execute script
+	delay 30 -- Allow the script a chance to run
+	quit
+end tell
