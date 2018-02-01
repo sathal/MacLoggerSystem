@@ -11,6 +11,9 @@ This program was created to run with Python 3
 
 Practice using Google Sheets Python API
 
-## Getting python application to fire on login
+## Getting Python application to fire on login
 
-//TODO
+I created an app in AppleScript using the Automator.app utiliy and set this app to be called on Login by going to 
+SYSTEM PREFERENCES -> USERS & GROUPS -> LOGIN ITEMS and adding my custom AppleScript app to the list of login items.
+
+The AppleScript app is used to call the python code.
