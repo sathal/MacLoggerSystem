@@ -15,18 +15,18 @@ daysOfWeek = {
 }
 
 monthsOfYear = {
-    0:"January",
-    1:"February",
-    2:"March",
-    3:"April",
-    4:"May",
-    5:"June",
-    6:"July",
-    7:"August",
-    8:"September",
-    9:"October",
-    10:"November",
-    11:"December"
+    1:"January",
+    2:"February",
+    3:"March",
+    4:"April",
+    5:"May",
+    6:"June",
+    7:"July",
+    8:"August",
+    9:"September",
+    10:"October",
+    11:"November",
+    12:"December"
 }
 
 # Returns the current timestamp for this session
@@ -37,12 +37,32 @@ def get_current_timestamp():
     # Get the desired parts of the local time structure
     dayWeek = daysOfWeek.get(localtime.tm_wday)
     month = monthsOfYear.get(localtime.tm_mon)
-    dayName = str(localtime.tm_mday)
-    hour = str(localtime.tm_hour)
-    minute = str(localtime.tm_min)
-    second = str(localtime.tm_sec)
+    dayNum = localtime.tm_mday
+    hour = localtime.tm_hour
+    minute = localtime.tm_min
+    #second = str(localtime.tm_sec)
+    timeSuffix = "am"
 
-    dateString = dayWeek + ", " + month + " " + dayName + " at " + hour + ":" + minute + ":" + second
+    if minute < 10:
+        minute = "0" + str(minute)
+
+    if((dayNum == 1) or (dayNum == 21) or (dayNum == 31)):
+        daySuffix = "st"
+    elif((dayNum == 2) or (dayNum == 22)):
+        daySuffix = "nd"
+    elif((dayNum == 3) or (dayNum == 23)):
+        daySuffix = "rd"
+    else:
+        daySuffix = "th"
+
+    if(hour > 11):
+        timeSuffix = "pm"
+
+    if(hour > 12):
+        hour = hour - 12
+
+    #dateString = dayWeek + ", " + month + " " + dayNum + " at " + hour + ":" + minute + ":" + second + " " + timeSuffix
+    dateString = str(hour) + ":" + str(minute) + " " + timeSuffix + " " + dayWeek + ", " + month + " " + str(dayNum) + daySuffix
 
     return dateString
 
